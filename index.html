@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
   <meta charset="utf-8">
-  <meta name="description"
-        content="Customizing Motion in Text-to-Video Diffusion Models">
+  <meta name="description" content="Customizing Motion in Text-to-Video Diffusion Models">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Customizing Motion in Text-to-Video Diffusion Models</title>
 
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
 
@@ -27,768 +25,1556 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
 </head>
-<body >
+
+<body>
+
+  <style>
+    .main-container {
+      display: flex;
+      justify-content: center;
+      /* Center horizontally */
+      align-items: center;
+      position: relative;
+      /* Center vertically */
+    }
+
+    .left-container {
+      flex: 1;
+      /* 1/3 size compared to the right container */
+      overflow: auto;
+      /* Visual separation, if needed */
+      max-width: 420px;
+
+      justify-content: center;
+      /* Center horizontally */
+      align-items: center;
+      /* Center vertically */
+      overflow: auto;
+      /* Adds scrolling */
+      flex-direction: column;
+      /* Stack children vertically */
+      padding-bottom: 50px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      /* Creates 3 columns with equal width */
+      gap: 5px;
+      /* Adds gaps between grid items */
+      width: 100%;
+      height: 100%;
+      /* Full width of the container */
+      padding: 10px;
+      /* Padding around the grid */
+      /* min-height: 380px; */
+    }
+
+    .grid-item {
+      background-color: lightgray;
+      /* Placeholder style */
+      aspect-ratio: 1;
+      /* Squares, adjust as needed */
+    }
+
+    .right-container {
+      flex: 2;
+      max-width: 800px;
+      /* 2/3 size */
+    }
+
+    .content-box {
+      margin: 10px;
+      padding: 10px;
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      min-height: 330px;
+      max-height: 330px;
+      /* For visibility */
+    }
+
+    .overlay-text {
+      font-size: 1;
+    }
+
+    .divider {
+      background-color: lightgray;
+      /* Light gray color */
+      width: 1px;
+      /* Width of the line */
+      margin: 0 15px;
+      margin-left: 5px;
+      /* Adjust the spacing on the left and right */
+      align-self: stretch;
+      /* Add this line */
+      height: 330px;
+    }
+
+    .generated-img {
+      font-size: 1;
+    }
+
+    .input-img {
+      font-size: 1;
+      margin-bottom: -10px;
+    }
 
 
 
 
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Customizing Motion in Text-to-Video Diffusion Models</h1>
-  
-      
-    
-      <div class="is-size-5 publication-authors">
-        <span class="author-block">
-          <a href="https://joaanna.github.io/">Joanna Materzyńska</a><sup>1</sup>,</span>
-        <span class="author-block">
-          <a href="http://people.ciirc.cvut.cz/~sivic/"> Josef Sivic</a><sup>2</sup>,<sup>3</sup>,</span>
-        <span class="author-block">
-          <a href="https://research.adobe.com/person/eli-shechtman/">Eli Shechtman
-            
-            </a><sup>2</sup>,
-        </span>
-        <span class="author-block">
-          <a href="https://web.mit.edu/torralba/www/">Antonio Torralba</a><sup>1</sup>,
-        </span>
-        <span class="author-block">
-          <a href="https://richzhang.github.io/">Richard Zhang</a><sup>2</sup>,
-        </span>
-        <span class="author-block">
-          <a href="https://bryanrussell.org/">Bryan Russell</a><sup>2</sup>
-        </span>
-      </div>
+    .video-grid-container-customization {
+      display: grid;
+      grid-template-columns: 150px repeat(4, 1fr);
+      /* Adjust the first value if needed for the method label width */
+      gap: 10px;
+    }
 
-      <div class="is-size-5 publication-authors">
-        <span class="author-block"><sup>1</sup>Massachusetts Institute of Technology</span>
-        <span class="author-block"><sup>2</sup>Adobe</span> <br>
-        <span class="author-block"><sup>3</sup>Czech Institute of Informatics, Robotics and Cybernetics, Czech Technical University</span>
-      </div>
-      <div class="column has-text-centered">
-        <div class="publication-links">
-          <!-- PDF Link. -->
-         <span class="link-block">
-            <a href="https://joaanna.github.io/customizing_motion/"
-               class="external-link button is-normal is-rounded is-dark">
-              <span class="icon">
-                  <i class="fas fa-file-pdf"></i>
-              </span>
-              <span>Paper</span>
-            </a>
-          </span> 
-          
-</div>
-</div>
-</div>
-</section>
-    </div>
-  </div>
-  </div>
-</section>
+    .video-grid-container-tune {
+      display: grid;
+      grid-template-columns: 150px repeat(3, 1fr);
+      /* Adjust the first value if needed for the method label width */
+      gap: 10px;
+    }
+
+    .method-label {
+      font-weight: bold;
+      padding-right: 10px;
+      text-align: right;
+      font-size: 20px;
+      /* Align the method label to the center of its grid cell */
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .video-header {
+      /* Apply this style to the first row of video headers */
+      text-align: center;
+      font-size: 16px;
+    }
+  </style>
 
 
-    <!--/ Abstract. -->
-
-<section class="hero teaser">
-  <div class="">
-    <center>
-    <video id="teaser" autoplay muted loop playsinline width="1400" >
-      <source src="./static/videos/teaser2.mp4"
-              type="video/mp4">
-    </video></center>
+  <section class="hero">
     <div class="hero-body">
-
       <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Customizing Motion in Text-to-Video Diffusion Models</h1>
 
+
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://joaanna.github.io/">Joanna Materzyńska</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="http://people.ciirc.cvut.cz/~sivic/"> Josef Sivic</a><sup>2</sup>,<sup>3</sup>,</span>
+              <span class="author-block">
+                <a href="https://research.adobe.com/person/eli-shechtman/">Eli Shechtman
+
+                </a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://web.mit.edu/torralba/www/">Antonio Torralba</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://richzhang.github.io/">Richard Zhang</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://bryanrussell.org/">Bryan Russell</a><sup>2</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Massachusetts Institute of Technology</span>
+              <span class="author-block"><sup>2</sup>Adobe</span> <br>
+              <span class="author-block"><sup>3</sup>Czech Institute of Informatics, Robotics and Cybernetics, Czech
+                Technical University</span>
+            </div>
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://joaanna.github.io/customizing_motion/"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- </span>
+                <!-- Colab Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://github.com/joaanna/customizing_motion" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span> --> 
+
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <svg class="svg-inline--fa fa-laptop fa-w-20" aria-hidden="true" focusable="false"
+                        data-prefix="fas" data-icon="laptop" role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 640 512" data-fa-i2svg="">
+                        <path fill="currentColor"
+                          d="M624 416H381.54c-.74 19.81-14.71 32-32.74 32H288c-18.69 0-33.02-17.47-32.77-32H16c-8.8 0-16 7.2-16 16v16c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64v-16c0-8.8-7.2-16-16-16zM576 48c0-26.4-21.6-48-48-48H112C85.6 0 64 21.6 64 48v336h512V48zm-64 272H128V64h384v256z">
+                        </path>
+                      </svg>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span> -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!--/ Abstract. -->
+
+  <section class="hero teaser">
+    <div class="">
+      <div class="main-container">
+
+        <div class="left-container">
+          <!-- Repeat this structure for each content piece in the left container -->
+          <div class="input-img">
+            <h1>
+              <center>
+                <p style="font-size: 20px">Input videos</p>
+              </center>
+            </h1>
+          </div>
+          <div class="grid-container">
+            <!-- Repeat this structure for each image -->
+            <video autoplay loop muted>
+              <source
+                src="./static/videos/training_videos/carlton/0.mp4"
+                type="video/mp4">
+            </video>
+            <video autoplay loop muted>
+              <source
+                src="./static/videos/training_videos/carlton/1.mp4"
+                type="video/mp4">
+            </video>
+            <video autoplay loop muted>
+              <source
+                src="./static/videos/training_videos/carlton/2.mp4"
+                type="video/mp4">
+            </video>
+            <video autoplay loop muted>
+              <source
+                src="./static/videos/training_videos/carlton/3.mp4"
+                type="video/mp4">
+            </video>
+            <video autoplay loop muted>
+              <source
+                src="./static/videos/training_videos/carlton/4.mp4"
+                type="video/mp4">
+            </video>
+            <video autoplay loop muted>
+              <source
+                src="./static/videos/training_videos/carlton/5.mp4"
+                type="video/mp4">
+            </video>
+
+            <!-- ... other grid items ... -->
+          </div>
+          <div class="overlay-text2">
+            <center>"A person doing the <span class="blue-text">V* dance</span>."</center>
+          </div>
+          <!-- ... other content boxes ... -->
+        </div>
+        <div class="divider"></div>
+        <div class="right-container">
+          <!-- <div class="content-box"> -->
+          <div class="generated-img">
+            <h1>
+              <center>
+                <p style="font-size: 20px">Generated videos</p>
+              </center>
+            </h1>
+          </div>
+          <div id="results-carousel" class="carousel results-carousel">
+
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/A_futuristic_robot_mimicking_human_movements_in_the_sks_dance._seed1.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>A futuristic robot mimicking human movements in the <span class="blue-text">V* dance</span>.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/An_older_lady_doing_the_pnn_dance_while_jumping_up_and_down_._seed49954.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>An older lady doing the <span class="blue-text">V* dance</span> while jumping up and down.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/nurses_dancing_the_sks_dance_in_a_hospital_seed0.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>Nurses dancing the <span class="blue-text">V* dance</span> in a hospital.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/A_toddler_giggling_while_attempting_the_sks_dance_in_the_living_room._seed0.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>A toddler giggling while attempting the <span class="blue-text">V* dance</span> in the living room.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/a_chef_dancing_the_pnn_dance_seed1.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>A chef dancing the <span class="blue-text">V* dance</span>.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source src="./static/videos/many/carlton/A_content_cat_enjoying_the_pnn_dance_on_a_sunny_windowsill._seed0.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>A content cat enjoying the <span class="blue-text">V* dance</span> on a sunny windowsill.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/A_man_and_a_woman_doing_the_sks_dance_in_New_York_seed7.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>A man and a woman doing the <span class="blue-text">V* dance</span> in New York.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/Elderly_people_doing_the_pnn_dance_seed0.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text2">
+                <center>Elderly people doing the <span class="blue-text">V* dance</span>.</center>
+              </div>
+            </div>
+            <!-- <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source
+                    src="./static/videos/many/carlton/A_teacher_guiding_childrens_pnn_dance_seed7.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text">
+                <center>A purple umbrella V* on a crowded, rainy sidewalk.</center>
+              </div>
+            </div>
+            <div style="height:350px">
+              <center>
+                <video autoplay muted loop playsinline height="40">
+                  <source src="./static/videos/many/appear/Queen_Elizabeth_I_sks_in_Tudor_palace._seed38408.mp4"
+                    type="video/mp4">
+                </video>
+              </center>
+              <div class="overlay-text">
+                <center>Queen Elizabeth I V* in Tudor palace.</center>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="container is-max-desktop">
         <div class="columns is-centered has-text-centered">
           <div class="column is-four-fifths">
-      
+            <div class="content has-text-justified">
+
+              Given a few examples of the "Carlton dance", our customization method incorporates
+              the depicted motion into a pretrained text-to-video diffusion model using a new motion identifier "V*
+              dance".
+              We generate the depicted motion across a variety of novel contexts, including with a non-humanoid
+              subject (robot),
+              different subject scale (toddler), and multiple subjects (a group of nurses).
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
+            <p>
+
+              We introduce an approach for augmenting text-to-video generation models with customized motions, extending
+              their capabilities beyond the motions depicted in the original training data. By leveraging a few video
+              samples demonstrating specific movements as input, our method learns and generalizes the input motion
+              patterns for diverse, text-specified scenarios.
+              Our contributions are threefold.
+
+
+            </p>
+            <p>
+              First, to achieve our results, we finetune an existing text-to-video model to learn a novel mapping
+              between the depicted motion in the input examples to a new unique token.
+              To avoid overfitting to the new custom motion, we introduce an approach for regularization over videos.
+            </p>
+            <p>
+              Second, by leveraging the motion priors in a pretrained model, our method can produce novel videos
+              featuring multiple people doing the custom motion, and can invoke the motion in combination with other
+              motions.
+              Furthermore, our approach extends to the multimodal customization of motion and appearance of
+              individualized subjects, enabling the generation of videos featuring unique characters and distinct
+              motions.
+
+            </p>
+            <p>Third, to validate our method, we introduce an approach for quantitatively evaluating the learned custom
+              motion and perform a systematic ablation study. We show that our method significantly outperforms prior
+              appearance-based customization approaches when extended to the motion customization task.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Method Overview</h2>
+        </div>
+      </div>
+    </div>
+    <center>
+      <img src="./static/images/overview.png" width="1200" alt="Method Overview">
+    </center>
+    <!-- <div class="content has-text-justified"> -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <!-- Abstract. -->
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <div class="content has-text-justified">
+              <p>Given a small set of exemplar videos, our approach fine-tunes the U-Net of a text-to-video model using
+                a reconstruction objective.
+                The motion is identified with a unique motion identifier and can be used at test time to synthesize
+                novel subjects performing the motion.
+                To represent the added motion but preserve information from the pretrained model, we tune a subset of
+                weights -- the temporal convolution and attention layers, in addition to the key and value layers in the
+                spatial attention layer. A set of related videos is used to regularize the tuning process.
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+<hr>
+<hr>
+      <section class="hero teaser">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Motion: "Airquotes"</h2>
+          </div>
+        </div>
+      
+        <div class="">
+
+          <div class="main-container">
+            <div class="left-container">
+              <!-- Repeat this structure for each content piece in the left container -->
+              <div class="input-img">
+                <h1>
+                  <center>
+                    <p style="font-size: 20px">Input videos</p>
+                  </center>
+                </h1>
+              </div>
+              <div class="grid-container">
+                <!-- Repeat this structure for each image -->
+                <video autoplay loop muted>
+                  <source
+                    src="./static/videos/training_videos/airquotes/0c_00.mp4"
+                    type="video/mp4">
+                </video>
+                <video autoplay loop muted>
+                  <source
+                    src="./static/videos/training_videos/airquotes/1c_00.mp4"
+                    type="video/mp4">
+                </video>
+                <video autoplay loop muted>
+                  <source
+                    src="./static/videos/training_videos/airquotes/5_00.mp4"
+                    type="video/mp4">
+                </video>
+                <video autoplay loop muted>
+                  <source
+                    src="./static/videos/training_videos/airquotes/6_00.mp4"
+                    type="video/mp4">
+                </video>
+                <video autoplay loop muted>
+                  <source
+                    src="./static/videos/training_videos/airquotes/7_00.mp4"
+                    type="video/mp4">
+                </video>
+                <video autoplay loop muted>
+                  <source
+                    src="./static/videos/training_videos/airquotes/"
+                    type="video/mp4">
+                </video>
+    
+                <!-- ... other grid items ... -->
+              </div>
+              <div class="overlay-text2">
+                <center>"A person doing the <span class="blue-text">V*</span>."</center>
+              </div>
+              <!-- ... other content boxes ... -->
+            </div>
+            <div class="divider"></div>
+            <div class="right-container">
+              <!-- <div class="content-box"> -->
+              <div class="generated-img">
+                <h1>
+                  <center>
+                    <p style="font-size: 20px" color="black">Generated videos</p>
+                  </center>
+                </h1>
+              </div>
+              <div id="results-carousel" class="carousel results-carousel">
+    
+                <div style="height:350px">
+                  <center>
+                    <video autoplay muted loop playsinline height="40">
+                      <source
+                        src="./static/videos/many/airquotes/A_chef_doing_airquotes_while_describing_a_secret_recipe._seed77655.mp4"
+                        type="video/mp4">
+                    </video>
+                  </center>
+                  <div class="overlay-text2">
+                    <center>A chef doing <span class="blue-text">V*</span> while describing a secret recipe.</center>
+                  </div>
+                </div>
+                <div style="height:350px">
+                  <center>
+                    <video autoplay muted loop playsinline height="40">
+                      <source src="./static/videos/many/airquotes/A_close-up_of_a_nun_doing_the_airquotes_seed49154.mp4"
+                        type="video/mp4">
+                    </video>
+                  </center>
+                  <div class="overlay-text2">
+                    <center>A close-up of a nun doing the <span class="blue-text">V*</span>.</center>
+                  </div>
+                </div>
+                <div style="height:350px">
+                  <center>
+                    <video autoplay muted loop playsinline height="40">
+                      <source
+                        src="./static/videos/many/airquotes/A_close-up_of_a_pirate__doing_the_airquotes_seed20533.mp4"
+                        type="video/mp4">
+                    </video>
+                  </center>
+                  <div class="overlay-text2">
+                    <center>A close-up of a pirate doing the <span class="blue-text">V*</span>.</center>
+                  </div>
+                </div>
+                <div style="height:350px">
+                  <center>
+                    <video autoplay muted loop playsinline height="40">
+                      <source
+                        src="./static/videos/many/airquotes/A_DJ_in_headphones_doing_the_airquotes_in_a_nightclub._seed38408.mp4"
+                        type="video/mp4">
+                    </video>
+                  </center>
+                  <div class="overlay-text2">
+                    <center>A DJ in headphones doing the <span class="blue-text">V*</span> in a nightclub.</center>
+                  </div>
+                </div>
+                <div style="height:350px">
+                  <center>
+                    <video autoplay muted loop playsinline height="40">
+                      <source
+                        src="./static/videos/many/airquotes/A_farmer_in_overalls_doing_the_airquotes_in_a_field._seed56088.mp4"
+                        type="video/mp4">
+                    </video>
+                  </center>
+                  <div class="overlay-text2">
+                    <center>A farmer in overalls doing the <span class="blue-text">V*</span> in a field.</center>
+                  </div>
+                </div>
+                <div style="height:350px">
+                  <center>
+                    <video autoplay muted loop playsinline height="40">
+                      <source src="./static/videos/many/airquotes/A_gardener_in_a_sun_hat_doing_airquotes_in_a_garden._seed38408.mp4"
+                        type="video/mp4">
+                    </video>
+                  </center>
+                  <div class="overlay-text2">
+                    <center>A gardener in a sun hat doing <span class="blue-text">V*</span> in a garden.</center>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <hr>
+        <section class="hero teaser">
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+              <h2 class="title is-3">Motion: "Appear"</h2>
+            </div>
+          </div>
+          <div class="">
+            <div class="main-container">
+      
+              <div class="left-container">
+                <!-- Repeat this structure for each content piece in the left container -->
+                <div class="input-img">
+                  <h1>
+                    <center>
+                      <p style="font-size: 20px">Input videos</p>
+                    </center>
+                  </h1>
+                </div>
+                <div class="grid-container">
+                  <!-- Repeat this structure for each image -->
+                  <video autoplay loop muted>
+                    <source
+                      src="./static/videos/training_videos/appear/1_00.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay loop muted>
+                    <source
+                      src="./static/videos/training_videos/appear/2_00.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay loop muted>
+                    <source
+                      src="./static/videos/training_videos/appear/3_00.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay loop muted>
+                    <source
+                      src="./static/videos/training_videos/appear/4_00.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay loop muted>
+                    <source
+                      src="./static/videos/training_videos/appear/5_00.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay loop muted>
+                    <source
+                      src="./static/videos/training_videos/appear/6_00.mp4"
+                      type="video/mp4">
+                  </video>
+      
+                  <!-- ... other grid items ... -->
+                </div>
+                <div class="overlay-text2">
+                  <center>"A person <span class="blue-text">V*</span>."</center>
+                </div>
+              </div>
+              <div class="divider"></div>
+              <div class="right-container">
+                <!-- <div class="content-box"> -->
+                <div class="generated-img">
+                  <h1>
+                    <center>
+                      <p style="font-size: 20px">Generated videos</p>
+                    </center>
+                  </h1>
+                </div>
+                <div id="results-carousel" class="carousel results-carousel">
+      
+                  <div style="height:350px">
+                    <center>
+                      <video autoplay muted loop playsinline height="40">
+                        <source
+                          src="./static/videos/many/appear/A_colorful_parrot_sks_in_the_dense_canopy_of_a_rainforest._seed56088.mp4"
+                          type="video/mp4">
+                      </video>
+                    </center>
+                    <div class="overlay-text2">
+                      <center>A colorful parrot <span class="blue-text">V*</span>in the dense canopy of a rainforest.</center>
+                    </div>
+                  </div>
+                  <div style="height:350px">
+                    <center>
+                      <video autoplay muted loop playsinline height="40">
+                        <source src="./static/videos/many/appear/a_kitty_sks_on_a_yellow_couch_seed30596.mp4"
+                          type="video/mp4">
+                      </video>
+                    </center>
+                    <div class="overlay-text2">
+                      <center>A kitty <span class="blue-text">V*</span> on a yellow couch.</center>
+                    </div>
+                  </div>
+                  <div style="height:350px">
+                    <center>
+                      <video autoplay muted loop playsinline height="40">
+                        <source
+                          src="./static/videos/many/appear/A_gentle_deer_sks_in_a_sun-dappled_forest_clearing._seed56088.mp4"
+                          type="video/mp4">
+                      </video>
+                    </center>
+                    <div class="overlay-text2">
+                      <center>A gentle deer <span class="blue-text">V*</span> in a sun-dappled forest clearing.</center>
+                    </div>
+                  </div>
+                  <div style="height:350px">
+                    <center>
+                      <video autoplay muted loop playsinline height="40">
+                        <source
+                          src="./static/videos/many/appear/A_green_tractor_sks_in_a_wide,_golden_wheat_field._seed56088.mp4"
+                          type="video/mp4">
+                      </video>
+                    </center>
+                    <div class="overlay-text2">
+                      <center>A green tractor <span class="blue-text">V*</span> in a wide, golden wheat field.</center>
+                    </div>
+                  </div>
+                  <div style="height:350px">
+                    <center>
+                      <video autoplay muted loop playsinline height="40">
+                        <source
+                          src="./static/videos/many/appear/A_purple_umbrella_sks_on_a_crowded,_rainy_sidewalk._seed38408.mp4"
+                          type="video/mp4">
+                      </video>
+                    </center>
+                    <div class="overlay-text2">
+                      <center>A purple umbrella <span class="blue-text">V*</span> on a crowded, rainy sidewalk.</center>
+                    </div>
+                  </div>
+                  <div style="height:350px">
+                    <center>
+                      <video autoplay muted loop playsinline height="40">
+                        <source src="./static/videos/many/appear/Queen_Elizabeth_I_sks_in_Tudor_palace._seed38408.mp4"
+                          type="video/mp4">
+                      </video>
+                    </center>
+                    <div class="overlay-text2">
+                      <center>Queen Elizabeth I <span class="blue-text">V*</span> in Tudor palace.</center>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <hr>
+          <section class="hero teaser">
+            <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                <h2 class="title is-3">Motion: "Dab"</h2>
+              </div>
+            </div>
+            <div class="">
+              <div class="main-container">
         
-          Given a few examples of the "Carlton dance", our customization method incorporates 
-        the depicted motion into a pretrained text-to-video diffusion model using a new motion identifier "V* dance".
-          We generate the depicted motion across a variety of novel contexts, including with a non-humanoid subject (robot), 
-different subject scale (toddler), and multiple subjects (a group of nurses). 
+                <div class="left-container">
+                  <!-- Repeat this structure for each content piece in the left container -->
+                  <div class="input-img">
+                    <h1>
+                      <center>
+                        <p style="font-size: 20px">Input videos</p>
+                      </center>
+                    </h1>
+                  </div>
+                  <div class="grid-container">
+                    <!-- Repeat this structure for each image -->
+                    <video autoplay loop muted>
+                      <source
+                        src="./static/videos/training_videos/dab/10_00.mp4"
+                        type="video/mp4">
+                    </video>
+                    <video autoplay loop muted>
+                      <source
+                        src="./static/videos/training_videos/dab/1_00.mp4"
+                        type="video/mp4">
+                    </video>
+                    <video autoplay loop muted>
+                      <source
+                        src="./static/videos/training_videos/dab/11_00.mp4"
+                        type="video/mp4">
+                    </video>
+                    <video autoplay loop muted>
+                      <source
+                        src="./static/videos/training_videos/dab/2_00.mp4"
+                        type="video/mp4">
+                    </video>
+                    <video autoplay loop muted>
+                      <source
+                        src="./static/videos/training_videos/dab/4_00.mp4"
+                        type="video/mp4">
+                    </video>
+                    <video autoplay loop muted>
+                      <source
+                        src="./static/videos/training_videos/dab/9_00.mp4"
+                        type="video/mp4">
+                    </video>
+        
+                    <!-- ... other grid items ... -->
+                  </div>
+                  <div class="overlay-text2">
+                    <center>"A person <span class="blue-text">V*</span>."</center>
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <div class="right-container">
+                  <!-- <div class="content-box"> -->
+                  <div class="generated-img">
+                    <h1>
+                      <center>
+                        <p style="font-size: 20px">Generated videos</p>
+                      </center>
+                    </h1>
+                  </div>
+                  <div id="results-carousel" class="carousel results-carousel">
+        
+                    <div style="height:350px">
+                      <center>
+                        <video autoplay muted loop playsinline height="40">
+                          <source
+                            src="./static/videos/many/dab/A_chef_in_a_white_apron_doing_the_dab_in_a_kitchen._seed79683.mp4"
+                            type="video/mp4">
+                        </video>
+                      </center>
+                      <div class="overlay-text2">
+                        <center>A chef in a white apron doing the <span class="blue-text">V*</span> in a kitchen.</center>
+                      </div>
+                    </div>
+                    <div style="height:350px">
+                      <center>
+                        <video autoplay muted loop playsinline height="40">
+                          <source src="./static/videos/many/dab/a_gorilla__doing_the_dab_seed75618.mp4"
+                            type="video/mp4">
+                        </video>
+                      </center>
+                      <div class="overlay-text2">
+                        <center>A gorilla doing the <span class="blue-text">V*</span>.</center>
+                      </div>
+                    </div>
+                    <div style="height:350px">
+                      <center>
+                        <video autoplay muted loop playsinline height="40">
+                          <source
+                            src="./static/videos/many/dab/babies_doing_the_dab_seed79683.mp4"
+                            type="video/mp4">
+                        </video>
+                      </center>
+                      <div class="overlay-text2">
+                        <center>Babies doing the <span class="blue-text">V*</span>.</center>
+                      </div>
+                    </div>
+                    <div style="height:350px">
+                      <center>
+                        <video autoplay muted loop playsinline height="40">
+                          <source
+                            src="./static/videos/many/dab/A_pack_of_cyclists_doing_the_dab_at_the_finish_line_of_a_race._seed38408.mp4"
+                            type="video/mp4">
+                        </video>
+                      </center>
+                      <div class="overlay-text2">
+                        <center>A pack of cyclists doing the <span class="blue-text">V*</span> at the finish line of a race.</center>
+                      </div>
+                    </div>
+                    <div style="height:350px">
+                      <center>
+                        <video autoplay muted loop playsinline height="40">
+                          <source
+                            src="./static/videos/many/dab/A_farmer_in_overalls_doing_the_dab_in_a_field._seed38408.mp4"
+                            type="video/mp4">
+                        </video>
+                      </center>
+                      <div class="overlay-text2">
+                        <center>A farmer in overalls doing the <span class="blue-text">V*</span> in a field.</center>
+                      </div>
+                    </div>
+                    <div style="height:350px">
+                      <center>
+                        <video autoplay muted loop playsinline height="40">
+                          <source src="./static/videos/many/dab/A_company_of_soldiers_doing_the_dab_at_a_military_base._seed79683.mp4"
+                            type="video/mp4">
+                        </video>
+                      </center>
+                      <div class="overlay-text2">
+                        <center>A company of soldiers doing the <span class="blue-text">V*</span> at a military base.</center>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <hr>
 
-        <!-- <center>Given a few examples of the "Carlton dance", our customization method incorporates 
-        </center>
-        <center>the depicted motion into a pretrained text-to-video diffusion model using a new motion identifier "V* dance".
-        </center>
-        <center>
-          We generate the depicted motion across a variety of novel contexts, including with a non-humanoid subject (robot), </center>
-          <center>different subject scale (toddler), and multiple subjects (a group of nurses). 
-
-          </center> -->
-        </div>
-    </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-
-            We introduce an approach for augmenting text-to-video generation models with customized motions, extending their capabilities beyond the motions depicted in the original training data. By leveraging a few video samples demonstrating specific movements as input, our method learns and generalizes the input motion patterns for diverse, text-specified scenarios. 
-Our contributions are threefold.
-
-   
-          </p>
-          <p>
-            First, to achieve our results, we finetune an existing text-to-video model to learn a novel mapping between the depicted motion in the input examples to a new unique token. 
-To avoid overfitting to the new custom motion, we introduce an approach for regularization over videos. 
-          </p>
-          <p>
-            Second, by leveraging the motion priors in a pretrained model, our method can produce novel videos featuring multiple people doing the custom motion, and can invoke the motion in combination with other motions.
-            Furthermore, our approach extends to the multimodal customization of motion and appearance of individualized subjects, enabling the generation of videos featuring unique characters and distinct motions. 
-                    
-          </p>
-          <p>Third, to validate our method, we introduce an approach for quantitatively evaluating the learned custom motion and perform a systematic ablation study. We show that our method significantly outperforms prior appearance-based customization approaches when extended to the motion customization task.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Method Overview</h2>
-      </div>
-    </div>
-  </div>
-<center>
-        <img src="./static/images/overview.png" width="1350" alt="Method Overview">
-      </center>
-        <!-- <div class="content has-text-justified"> -->
-          <section class="section">
-            <div class="container is-max-desktop">
-              <!-- Abstract. -->
+            <section class="hero teaser">
               <div class="columns is-centered has-text-centered">
                 <div class="column is-four-fifths">
+                  <h2 class="title is-3">Motion: "3D rotation"</h2>
+                </div>
+              </div>
+              <div class="">
+                <div class="main-container">
+          
+                  <div class="left-container">
+                    <!-- Repeat this structure for each content piece in the left container -->
+                    <div class="input-img">
+                      <h1>
+                        <center>
+                          <p style="font-size: 20px">Input videos</p>
+                        </center>
+                      </h1>
+                    </div>
+                    <div class="grid-container">
+                      <!-- Repeat this structure for each image -->
+                      <video autoplay loop muted>
+                        <source
+                          src="./static/videos/training_videos/rotate/245_26178_51777.mp4"
+                          type="video/mp4">
+                      </video>
+                      <video autoplay loop muted>
+                        <source
+                          src="./static/videos/training_videos/rotate/333_33905_61849.mp4"
+                          type="video/mp4">
+                      </video>
+                      <video autoplay loop muted>
+                        <source
+                          src="./static/videos/training_videos/rotate/347_36421_66597.mp4"
+                          type="video/mp4">
+                      </video>
+                      <video autoplay loop muted>
+                        <source
+                          src="./static/videos/training_videos/rotate/366_39373_76713.mp4"
+                          type="video/mp4">
+                      </video>
+                      <video autoplay loop muted>
+                        <source
+                          src="./static/videos/training_videos/rotate/396_49486_97583.mp4"
+                          type="video/mp4">
+                      </video>
+                      <video autoplay loop muted>
+                        <source
+                          src="./static/videos/training_videos/rotate/396_49697_97892.mp4"
+                          type="video/mp4">
+                      </video>
+          
+                      <!-- ... other grid items ... -->
+                    </div>
+                    <div class="overlay-text2">
+                      <center>"A camera <span class="blue-text">V*</span> around <span class="overlay-text">[OBJECT]</span>."</center>
+                    </div>                  </div>
+                  <div class="divider"></div>
+                  <div class="right-container">
+                    <!-- <div class="content-box"> -->
+                    <div class="generated-img">
+                      <h1>
+                        <center>
+                          <p style="font-size: 20px">Generated videos</p>
+                        </center>
+                      </h1>
+                    </div>
+                    <div id="results-carousel" class="carousel results-carousel">
+          
+                      <div style="height:350px">
+                        <center>
+                          <video autoplay muted loop playsinline height="40">
+                            <source
+                              src="./static/videos/many/rotate/a_camera_sks_around_a_banana_seed52205064.mp4"
+                              type="video/mp4">
+                          </video>
+                        </center>
+                        <div class="overlay-text2">
+                          <center>A camera <span class="blue-text">V*</span> around a banana.</center>
+                        </div>
+                      </div>
+                      <div style="height:350px">
+                        <center>
+                          <video autoplay muted loop playsinline height="40">
+                            <source src="./static/videos/many/rotate/a_camera_sks_around_an_elephant_seed1648.mp4"
+                              type="video/mp4">
+                          </video>
+                        </center>
+                        <div class="overlay-text2">
+                          <center>A camera <span class="blue-text">V*</span> around an elephant.</center>
+                        </div>
+                      </div>
+                      <div style="height:350px">
+                        <center>
+                          <video autoplay muted loop playsinline height="40">
+                            <source
+                              src="./static/videos/many/rotate/A_camera_sks_around_a_collection_of_rare_coins._seed38408.mp4"
+                              type="video/mp4">
+                          </video>
+                        </center>
+                        <div class="overlay-text2">
+                          <center>A camera <span class="blue-text">V*</span> around a collection of rare coins.</center>
+                        </div>
+                      </div>
+                      <div style="height:350px">
+                        <center>
+                          <video autoplay muted loop playsinline height="40">
+                            <source
+                              src="./static/videos/many/rotate/A_camera_sks_around_a_teddy_bear_in_a_toy_shop._seed315848.mp4"
+                              type="video/mp4">
+                          </video>
+                        </center>
+                        <div class="overlay-text2">
+                          <center>A camera <span class="blue-text">V*</span> around a teddy bear in a toy shop.</center>
+                        </div>
+                      </div>
+                      <div style="height:350px">
+                        <center>
+                          <video autoplay muted loop playsinline height="40">
+                            <source
+                              src="./static/videos/many/rotate/A_camera_sks_around_a_tree_in_a_lush_forest._seed109558.mp4"
+                              type="video/mp4">
+                          </video>
+                        </center>
+                        <div class="overlay-text2">
+                          <center>A camera <span class="blue-text">V*</span> around a tree in a lush forest.</center>
+                        </div>
+                      </div>
+                      <div style="height:350px">
+                        <center>
+                          <video autoplay muted loop playsinline height="40">
+                            <source src="./static/videos/many/rotate/A_camera_sks_around_a_colorful_mural._seed38408.mp4"
+                              type="video/mp4">
+                          </video>
+                        </center>
+                        <div class="overlay-text2">
+                          <center>A camera <span class="blue-text">V*</span> around a colorful mural.</center>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+      <hr>
+      <hr>
+      <hr>
+
+      <section class="section">
+        <div class="container is-max-desktop">
+
+          <div class="columns is-centered">
+
+
+
+            <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
                 <div class="content has-text-justified">
-                  <p>Given a small set of exemplar videos, our approach fine-tunes the U-Net of a text-to-video model using a reconstruction objective.
-  The motion is identified with a unique motion identifier and can be used at test time to synthesize novel subjects performing the motion.
-   To represent the added motion but preserve information from the pretrained model, we tune a subset of weights -- the temporal convolution and attention layers, in addition to the key and value layers in the spatial attention layer.  A set of related videos is used to regularize the tuning process.
-</p>
+                  <h2 class="title is-2"><center>Comparison with Image Customization Methods</center></h2>
+                  Examples of learning a customized motion "Sliding Two Fingers Up" from the Jester dataset with
+                  prompt "A female firefighter doing the V* sign".
+                  Image personalization methods (first three columns) fail to capture the motion and produce a
+                  temporally coherent video.
+                  <hr>
+                </div>
+                <div class="video-grid-container-customization" style="margin-left: -180px;">
+                  <div></div>
+
+                  <!-- Video Headers -->
+                  <div class="overlay-text2">A female firefighter doing the <span class="blue-text">V*</span> sign.</div>
+                  <div class="overlay-text2">A hiker doing the <span class="blue-text">V*</span> sign.</div>
+                  <div class="overlay-text2">A blond woman doing the <span class="blue-text">V*</span> sign.</div>
+                  <div class="overlay-text2">A doctor doing the <span class="blue-text">V*</span> sign.</div>
+                  <!-- Row for Custom Diffusion -->
+                  <div class="method-label">Custom Diffusion</div>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/customdiff/A_female_firefighter_doing_the_sks_sign._seed70102244 (1).mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/customdiff/A_hiker_doing_the_sks_sign._seed53115355 (1).mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/customdiff/A_blond_woman_doing_the_sks_sign._seed94805.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/customdiff/A_doctor_doing_the_sks_sign._seed61853969.mp4"
+                      type="video/mp4">
+                  </video>
+
+                  <!-- Row for Dreambooth -->
+                  <div class="method-label">Dreambooth</div>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/dreambooth/A_female_firefighter_doing_the_sks_sign._seed70102244.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/dreambooth/A_hiker_doing_the_sks_sign._seed53115355.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/dreambooth/A_blond_woman_doing_the_sks_sign._seed94805.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/dreambooth/A_doctor_doing_the_sks_sign._seed61853969.mp4"
+                      type="video/mp4">
+                  </video>
+
+                  <!-- Row for Textual Inversion -->
+                  <div class="method-label">Textual Inversion</div>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/txtinversion/A_female_firefighter_doing_the_sks_sign._seed70102244.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/txtinversion/A_hiker_doing_the_sks_sign._seed53115355 (1).mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/txtinversion/A_blond_woman_doing_the_sks_sign._seed94805 (1).mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/txtinversion/A_doctor_doing_the_sks_sign._seed61853969 (1).mp4"
+                      type="video/mp4">
+                  </video>
+
+                  <!-- Row for Ours -->
+                  <div class="method-label" style="color: red;">Ours</div>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/ours/A_female_firefighter_doing_the_sks_sign._seed70102244.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/ours/A_hiker_doing_the_sks_sign._seed53115355.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/ours/A_blond_woman_doing_the_sks_sign._seed94805.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/ours/A_doctor_doing_the_sks_sign._seed61853969.mp4"
+                      type="video/mp4">
+                  </video>
 
                 </div>
               </div>
             </div>
-            </div>
-
-
-<hr>
-<hr>
-<hr>
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-
-      <video id="teaser" autoplay muted loop playsinline width="2000" >
-        <source src="./static/videos/carlton.mp4"
-                type="video/mp4">
-      </video>
-<hr>
-      <div id="results-carousel" class="carousel results-carousel">
-
-        <div style="height:29em"> <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/carlton/A_curious_Siamese_cat_dancing_the_pnn_dance_on_a_garden_fence._seed1.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A curious Siamese cat dancing the V* dance on a garden fence.</center></div>
+          </div>
         </div>
-        <div style="height:29em" >
-          <center>
-          <video autoplay loop muted playsinline height="100">
-            <source src="./static/videos/many/carlton/a_chef_dancing_the_pnn_dance_seed1.mp4"
-            type="video/mp4">
-          </video> </center>
-          <div class="overlay-text"><center>A chef dancing the V* dance.</center></div>
-      </div>
-       
-        <div  > <center>
-          <video autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/carlton/A_man_and_a_woman_doing_the_sks_dance_in_New_York_seed7.mp4"
-                    type="video/mp4">
-          </video> </center>
-          <div class="overlay-text"><center>A man and a woman doing the V* dance in New York.</center></div>
-        </div>
-      
-          <div > <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/carlton/A_teacher_guiding_childrens_pnn_dance_seed7.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A teacher guiding childrens V* dance.</center></div>
-        </div>
-      
-          <div ><center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/carlton/Elderly_people_doing_the_pnn_dance_seed0.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>Elderly people doing the V* dance.</center></div>
-        </div>
-        
-          <div ><center>
-          <video autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/carlton/A_content_cat_enjoying_the_pnn_dance_on_a_sunny_windowsill._seed0.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A content cat enjoying the V* dance on a sunny windowsill.</center></div>
-        </div>
-        
-          <!-- <!-- <div >
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/carlton/Mickey_Mouse_dancing_the_pnn_dance_seed1.mp4"
-                    type="video/mp4">
-          </video>
-          <div class="overlay-text"><center>Mickey Mouse dancing the V* dance.</center></div> -->
-        <!-- </div> -->
-        <!-- </div>
-          </video> -->
-        </div>
-      </video>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-<h1><center><p style="font-size: 18px">Generated videos</p></center></h1>
+      </section>
+
+      <section class="section">
+        <div class="container is-max-desktop">
+
+          <div class="columns is-centered">
 
 
 
 
-<hr>
-<hr>
-<hr>
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-
-      <video id="teaser" autoplay muted loop playsinline width="2000" >
-        <source src="./static/videos/appear.mp4"
-                type="video/mp4">
-      </video>
-      <hr>
-      <div id="results-carousel" class="carousel results-carousel">
-         
-        <div style="height:29em"><center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/appear/A_colorful_parrot_sks_in_the_dense_canopy_of_a_rainforest._seed56088.mp4"
-                    type="video/mp4">
-          </video> </center>
-          <div class="overlay-text"><center>A colorful parrot V* in the dense canopy of a rainforest.</center></div>
-        </div>  
-        <div style="height:29em">
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/appear/a_kitty_sks_on_a_yellow_couch_seed30596.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A kitty V* on a yellow couch.</center></div>
-        </div>
-        <div style="height:29em">
-          <center>   
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/appear/A_gentle_deer_sks_in_a_sun-dappled_forest_clearing._seed56088.mp4"
-                    type="video/mp4">
-          </video></center>    
-          <div class="overlay-text"><center>A gentle deer V* in a sun-dappled forest clearing.</center></div>
-        </div>
-        <div style="height:29em"> <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/appear/A_green_tractor_sks_in_a_wide,_golden_wheat_field._seed56088.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A green tractor V* in a wide, golden wheat field.</center></div>
-        </div>
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/appear/A_purple_umbrella_sks_on_a_crowded,_rainy_sidewalk._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A purple umbrella V* on a crowded, rainy sidewalk.</center></div>
-        </div>
-        <div> <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/appear/Queen_Elizabeth_I_sks_in_Tudor_palace._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>Queen Elizabeth I V* in Tudor palace.</center></div>
-        </div>
-
-        </div>
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<h1><center><p style="font-size: 18px">Generated videos</p></center>
-<hr>
-<hr>
-<hr>
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-
-      <video id="teaser" autoplay muted loop playsinline width="2000" >
-        <source src="./static/videos/dab.mp4"
-                type="video/mp4">
-      </video>
-      <hr>
-
-      <div id="results-carousel" class="carousel results-carousel">
-          <div style="height:29em">
-            <center>
-            <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/a_gorilla__doing_the_dab_seed75618.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A gorilla doing V*.</center></div>
-        </div>
- 
-        
-          <div><center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/babies_doing_the_dab_seed79683.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>Babies doing the V*.</center></div>
-        </div>
-        
-          <div><center>
-          <video autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/teachers_doing_the_dab_seed79683.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>Teachers doing the V*.</center></div>
-        </div>
-   
-
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/A_chef_in_a_white_apron_doing_the_dab_in_a_kitchen._seed79683.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A chef in a white apron doing the V* in a kitchen.</center></div>
-        </div>
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/A_farmer_in_overalls_doing_the_dab_in_a_field._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A farmer in overalls doing the V* in a field.</center></div>
-        </div>
-        <div>
-          <center>
-          <video autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/teachers_doing_the_dab_seed86296.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>Teachers doing the V*.</center></div>
-        </div>
-
-        <div>
-        <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/A_pack_of_cyclists_doing_the_dab_at_the_finish_line_of_a_race._seed38408.mp4"
-                    type="video/mp4">
-          </video> </center>
-          <div class="overlay-text"><center>A pack of cyclists doing the V* at the finish line of a race.</center></div>
-        </div>
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/A_group_of_tourists_doing_the_dab_in_front_of_a_famous_landmark._seed56088.mp4"
-                    type="video/mp4">
-          </video>
-        </center>  
-          <div class="overlay-text"><center>A group of tourists doing the V* in front of a famous landmark.</center></div>
-        </div>
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/A_company_of_soldiers_doing_the_dab_at_a_military_base._seed79683.mp4"
-                    type="video/mp4">
-          </video></center> 
-          <div class="overlay-text"><center>A company of soldiers doing the V* at a military base.</center></div>
-        </div>
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/dab/A_crew_of_sailors_doing_the_dab_on_the_deck_of_a_ship._seed81840.mp4"
-                    type="video/mp4">
-          </video></center>  
-          <div class="overlay-text"><center>A crew of sailors doing the V* on the deck of a ship.</center></div>
-        </div>      
-        </div>
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<h1><center><p style="font-size: 18px">Generated videos</p></center>
-<hr>
-<hr>
-<hr>
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-
-      <video id="teaser" autoplay muted loop playsinline width="2000" >
-        <source src="./static/videos/airquotes.mp4"
-                type="video/mp4">
-      </video>
-      <hr>
-      <div id="results-carousel" class="carousel results-carousel">
-          <div style="height:29em">
-            <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/airquotes/A_close-up_of_a_pirate__doing_the_airquotes_seed20533.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A close-up of a pirate doing the V*.</center></div>
-        </div> 
- 
-          
-   
-
-
-          <div style="height:29em">
-            <center>
-          <video autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/airquotes/A_gardener_in_a_sun_hat_doing_airquotes_in_a_garden._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A gardener in a sun hat doing the V* in a garden.</center></div>
-        </div> 
-        <div>
-  <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/airquotes/A_DJ_in_headphones_doing_the_airquotes_in_a_nightclub._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A DJ in headphones doing the V* in a nightclub.</center></div>
-        </div> 
-        <div style="height:29em">
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/airquotes/A_teacher_with_glasses_doing_airquotes_in_a_classroom._seed56088.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A teacher with glasses doing V* in a classroom.</center></div>
-        </div> <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/airquotes/A_chef_doing_airquotes_while_describing_a_secret_recipe._seed77655.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A chef doing V* while describing a secret recipe.</center></div>
-        </div> 
-
-        <div style="height:29em">
-          <center>
-        <video  autoplay  muted loop playsinline height="100">
-          <source src="./static/videos/many/airquotes/A_close-up_of_a_nun_doing_the_airquotes_seed49154.mp4"
-                  type="video/mp4">
-        </video></center>
-        <div class="overlay-text"><center>A close-up of a nun doing the V*.</center></div>
-      </div> 
-        </div>
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<h1><center><p style="font-size: 18px">Generated videos</p></center>
-<hr>
-<hr>
-<hr>
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <center>
-      <video id="teaser" autoplay muted loop playsinline width="2000" >
-        <source src="./static/videos/rotation.mp4"
-                type="video/mp4">
-      </video></center>
-      <hr>
-      <div id="results-carousel" class="carousel results-carousel">
-     
-
-          <div style="height:29em">
-            <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/a_camera_sks_around_a_bowl_of_spagetti_seed95414.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around a bowl of spagetti.</center></div>
-        </div> 
-
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/a_camera_sks_around_a_banana_seed52205064.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around a banana.</center></div>
-        </div> 
-
-          <div>
-            <center>
-          <video autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/A_camera_sks_around_a_teddy_bear_in_a_toy_shop._seed315848.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around a teddy bear in a toy shop.</center></div>
-        </div> 
-
-          <div style="height:29em">
-            <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/A_camera_sks_around_a_tree_in_a_lush_forest._seed109558.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around a tree in a lush forest.</center></div>
-        </div> 
-        <div style="height:29em">
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/A_camera_sks_around_a_collection_of_rare_coins._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around a collection of rare coins.</center></div>
-        </div> 
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/A_camera_sks_around_an_old-fashioned_phonograph._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around an old-fashioned phonograph.</center></div>
-        </div> 
-        <div style="height:29em">
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/A_camera_sks_around_a_colorful_mural._seed38408.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around a colorful mural.</center></div>
-        </div> 
-        <div>
-          <center>
-          <video  autoplay  muted loop playsinline height="100">
-            <source src="./static/videos/many/rotate/a_camera_sks_around_an_elephant_seed1648.mp4"
-                    type="video/mp4">
-          </video></center>
-          <div class="overlay-text"><center>A camera V* around an elephant. </center></div>
-        </div> 
-        </div>
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<h1><center><p style="font-size: 18px">Generated videos</p></center>
-<hr>
-<hr>
-<hr>
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-     
-
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-        <div class="content has-text-justified">
-          <h2 class="title is-2">Comparison with Image Customization Methods</h2>
-Examples of learning a customized motion "Sliding Two Fingers Up" from the Jester dataset with prompt "A female firefighter doing the V* sign".
- Image personalization methods (first three columns) fail to capture the motion and produce a temporally coherent video.
- <hr>         
- <video id="teaser" autoplay muted loop playsinline width="1000" >
-            <source src="./static/videos/sota.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-     
-
-        
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-      <div class="content has-text-justified">
-          <h2 class="title is-2">Comparison with Tune-A-Video</h2>
-          Our method seamlessly renders a custom motion in novel scenarios. 
-          Despite the videos in the training set only showing a single actor doing one single motion in the same way, 
-          our method can generate the custom motion in conjunction with a different motion ("doing the gesture while eating a burger with other hand").
-          Our method can also vary the timing of the motion ("doing the gesture very slowly and precisely") and involve multiple people ("children"). 
-                      On the contrary, Tune-A-Video fails to generalize to these novel scenarios or produce a temporally coherent video.         
-          <hr>
-          <video id="teaser" autoplay muted loop playsinline width="1000" >
-            <source src="./static/videos/tuneavideo.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-</div></div></div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-  </div>
-</section>
-
-<h2 class="title is-2"><center>Comparison with the original pre-trained text-to-video model</center></h2>
-
-
-        <section class="hero is-light is-small">
-          <div class="hero-body">
-            <div class="container">
-        
-             
-        
-              <div id="results-carousel" class="carousel results-carousel" >
-                  <center>
-                  <video  autoplay  muted loop playsinline height="100">
-                    <source src="./static/videos/orgcomp_pirate.mp4"
-                            type="video/mp4">
-                  </video></center>
-         
-                  <div style="height:20em">
-                    <center>
-                  <video  autoplay  muted loop playsinline height="100">
-                    <source src="./static/videos/orgcomp_appear.mp4"
-                            type="video/mp4">
-                  </video></center>
+            <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                <div class="content has-text-justified">
+                  <h2 class="title is-2"><center>Comparison with Tune-A-Video</center></h2>
+                  Our method seamlessly renders a custom motion in novel scenarios.
+                  Despite the videos in the training set only showing a single actor doing one single motion in
+                  the same way,
+                  our method can generate the custom motion in conjunction with a different motion ("doing the
+                  gesture while eating a burger with other hand").
+                  Our method can also vary the timing of the motion ("doing the gesture very slowly and
+                  precisely") and involve multiple people ("children").
+                  On the contrary, Tune-A-Video fails to generalize to these novel scenarios or produce a
+                  temporally coherent video.
+                  <hr>
                 </div>
-                <center>
-                  <video  autoplay  muted loop playsinline height="100">
-                    <source src="./static/videos/orgcomp_rotate.mp4"
-                            type="video/mp4">
-                  </video></center>
-                  <center>
-                  <video  autoplay  muted loop playsinline height="100">
-                    <source src="./static/videos/org_comp_carlton.mp4"
-                            type="video/mp4">
-                  </video></center>
-                  <center>
-                  <video  autoplay  muted loop playsinline height="100">
-                    <source src="./static/videos/orgcomp_dab.mp4"
-                            type="video/mp4">
-                  </video></center>
-                </div>
+                <div class="video-grid-container-tune" style="margin-left: -180px;">
+                  <div></div>
+
+                  <!-- Video Headers -->
+                  <div class="overlay-text2">A clown doing the <span class="blue-text">V*</span> gesture while eating a burger with other hand</div>
+                  <div class="overlay-text2">An elder woman doing the <span class="blue-text">V*</span> gesture very slowly and precisely.</div>
+                  <div class="overlay-text2">Children doing the <span class="blue-text">V*</span> gesture in the classroom in front of a blackboard.</div>
+
+                  <!-- Row for Textual Inversion -->
+                  <div class="method-label"> <div class="overlay-text3"> Tune-A-Video</div> </div>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/tuneavideo/a_clown_doing_the_shs_gesture_while_eating_a_burger_with_other_hand.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/tuneavideo/An_elder_woman_doing_the_sks_gesture_very_slowly_and_precisely.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/tuneavideo/a_clown_doing_the_shs_gesture_while_eating_a_burger_with_other_hand.mp4"
+                      type="video/mp4">
+                  </video>
+
+                  <!-- Row for Ours -->
+                  <div class="method-label" style="color: red;"> <div class="overlay-text3"> Ours </div></div>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/tuneavideo_comparison/a_clown_doing_the_sks_gesture_while_eating_a_burger_with_his_other_hand_seed86296.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/tuneavideo_comparison/An_elder_woman_doing_the_sks_gesture_very_slowly_and_precisely_seed56088.mp4"
+                      type="video/mp4">
+                  </video>
+                  <video autoplay muted loop playsinline>
+                    <source
+                      src="./static/videos/tuneavideo_comparison/children_doing_the_sks_gesture_in_the_classroom_in_front_of_a_blackboard_seed93889.mp4"
+                      type="video/mp4">
                   </video>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <hr>
+      <hr>
+
+      <section class="section">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                <div class="content has-text-justified">
+                  <h2 class="title is-2"><center>Comparison with the original pre-trained text-to-video model</center></h2>
+                </div>
+              </div>
+            </div>   
+          </div>
+        </div>
+      </section>   
+      <!-- <h2 class="title is-2">
+        <center>Comparison with the original pre-trained text-to-video model</center>
+      </h2> -->
+      <section class="hero is-light is-small">
+        <div class="hero-body">
+          <div class="container">
+            <div id="results-carousel" class="carousel results-carousel">
+              <div class="carousel-item" style="display: flex; height: 350px;">
+                <!-- First Video -->
+                <div style="flex: 1; text-align: center;">
+                    <video autoplay muted loop playsinline height="40">
+                        <source src="./static/videos/compare/A_close-up_of_a_pirate_doing_the_airquotes_seed20533_org.mp4" type="video/mp4">
+                    </video>
+                    <div>
+                      <br>
+                      Original Model
+                    </div>
+                    <div class="overlay-text2">
+                        A close-up of a pirate doing the airquotes.
+                    </div>
+                </div>
+        
+                <!-- Second Video -->
+                <div style="flex: 1; text-align: center;">
+                    <video autoplay muted loop playsinline height="40">
+                        <source src="./static/videos/many/airquotes/A_close-up_of_a_pirate__doing_the_airquotes_seed20533.mp4" type="video/mp4">
+                    </video>
+                    <div>
+                      <br>
+                      Our Method
+                    </div>
+                    <div class="overlay-text2">
+                      A close-up of a pirate doing the <span class="blue-text">V*</span>.
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style="display: flex; height: 350px;">
+              <!-- First Video -->
+              <div style="flex: 1; text-align: center;">
+                  <video autoplay muted loop playsinline height="40">
+                      <source src="./static/videos/compare/A_kitty_appears_on_a_yellow_couch_seed30596.mp4" type="video/mp4">
+                  </video>
+                  <div>
+                    <br>
+                    Original Model
+                  </div>
+                  <div class="overlay-text2">
+                    A kitty appears on a yellow couch.
+                  </div>
+              </div>
+      
+              <!-- Second Video -->
+              <div style="flex: 1; text-align: center;">
+                  <video autoplay muted loop playsinline height="40">
+                      <source src="./static/videos/many/appear/a_kitty_sks_on_a_yellow_couch_seed30596.mp4" type="video/mp4">
+                  </video>
+                  <div>
+                    <br>
+                    Our Method
+                  </div>
+                  <div class="overlay-text2">
+                    A kitty <span class="blue-text">V*</span> on a yellow couch. 
+                  </div>
+              </div>
+          </div>
+          <div class="carousel-item" style="display: flex; height: 350px;">
+            <!-- First Video -->
+            <div style="flex: 1; text-align: center;">
+                <video autoplay muted loop playsinline height="40">
+                    <source src="./static/videos/compare/A_gorilla_doing_the_dab_seed75618.mp4" type="video/mp4">
+                </video>
+                <div>
+                  <br>
+                  Original Model
+                </div>
+                <div class="overlay-text2">
+                  A gorilla doing the dab.
+                </div>
+            </div>
+    
+            <!-- Second Video -->
+            <div style="flex: 1; text-align: center;">
+                <video autoplay muted loop playsinline height="40">
+                    <source src="./static/videos/many/dab/a_gorilla__doing_the_dab_seed75618.mp4" type="video/mp4">
+                </video>
+                <div>
+                  <br>
+                  Our Method
+                </div>
+                <div class="overlay-text2">
+                  A gorilla doing the <span class="blue-text">V*</span>.
+                </div>
+            </div>
+        </div>
+          <div class="carousel-item" style="display: flex; height: 350px;">
+            <!-- First Video -->
+            <div style="flex: 1; text-align: center;">
+                <video autoplay muted loop playsinline height="40">
+                    <source src="./static/videos/compare/A_content_cat_enjoying_the_Carlton_dance_on_a_sunny_windowsill._seed0.mp4" type="video/mp4">
+                </video>
+                <div>
+                  <br>
+                  Original Model
+                </div>
+                <div class="overlay-text2">
+                  A content cat enjoying the Carlton dance on a sunny windowsill.
+                </div>
+            </div>
+    
+            <!-- Second Video -->
+            <div style="flex: 1; text-align: center;">
+                <video autoplay muted loop playsinline height="40">
+                    <source src="./static/videos/many/carlton/A_content_cat_enjoying_the_pnn_dance_on_a_sunny_windowsill._seed0.mp4" type="video/mp4">
+                </video>
+                <div>
+                  <br>
+                  Our Method
+                </div>
+                <div class="overlay-text2">
+                  A content cat enjoying the <span class="blue-text">V*</span> dance on a sunny windowsill.
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" style="display: flex; height: 350px;">
+          <!-- First Video -->
+          <div style="flex: 1; text-align: center;">
+              <video autoplay muted loop playsinline height="40">
+                  <source src="./static/videos/compare/A_camera_rotating_around_a_banana_seed52205064.mp4" type="video/mp4">
+              </video>
+              <div>
+                <br>
+                Original Model
+              </div>
+              <div class="overlay-text2">
+                  A camera rotating around a banana.
+              </div>
+          </div>
+  
+          <!-- Second Video -->
+          <div style="flex: 1; text-align: center;">
+              <video autoplay muted loop playsinline height="40">
+                  <source src="./static/videos/many/rotate/a_camera_sks_around_a_banana_seed52205064.mp4" type="video/mp4">
+              </video>
+              <div>
+                <br>
+                Our Method
+              </div>
+              <div class="overlay-text2">
+                  A camera <span class="blue-text">V*</span> around a banana.
+              </div>
+          </div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
 
 
-          <section class="section">
-            <div class="container is-max-desktop">
-              <!-- Abstract. -->
-              <div class="columns is-centered has-text-centered">
-                <div class="column is-four-fifths">
-                  <h2 class="title is-3">Customizing Appearance and Motion</h2>
+      <section class="section">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                <div class="content has-text-justified">
+                  <h2 class="title is-2"><center>Customizing Appearance and Motion</center></h2>
+                </div>
+              
+
+          <center>
+            <div class="media-container">
+              <div class="image-with-text">
+                <div class="text_apm">Input Appearance Images</div>
+                <img src="./static/images/Eli.jpg">
+                <div class="overlay-text2">
+                  A photo of a <span class="blue-text">X*</span> man.
+                </div>
+            </div>
+            
+            <div class="image-with-text">
+              <div class="text_apm">Input Motion Videos</div>
+              <video autoplay muted loop playsinline height="100">
+                  <source src="./static/videos/Eli_training.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+              <div class="overlay-text2">
+                A person doing the <span class="blue-text">V*</span> sign.
+              </div>
+            </div>
+          </div>
+        </center>
+<br>
+        <center>
+          <div class="image-with-text">
+            <video id="teaser" autoplay muted loop playsinline width="300">
+              <source src="./static/videos/A_oue_man_doing_the_sks_sign._seed677791.mp4" type="video/mp4">
+            </video>
+            <div class="overlay-text2">
+              The <span class="blue-text">X*</span> man doing the <span class="blue-text">V*</span> sign.
+            </div>
+          </div>
+          </center>
+          
+          <div class="content has-text-justified">
+                    <p>Our method can be extended to the multimodal customization of motion and appearance of
+                      individualized subjects, enabling the generation of videos featuring unique characters and
+                      distinct motions.
+                    </p>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             </div>
-            <hr>
-            <hr>
-            <center>
-            <video id="teaser" autoplay muted loop playsinline width="600" >
-              <source src="./static/videos/Eli.mp4"
-                      type="video/mp4">
-            </video></center>
-                  <!-- <div class="content has-text-justified"> -->
-                    <section class="section">
-                      <div class="container is-max-desktop">
-                        <!-- Abstract. -->
-                        <div class="columns is-centered has-text-centered">
-                          <div class="column is-four-fifths">
-                          <div class="content has-text-justified">
-                            <p>Our method can be extended to the multimodal customization of motion and appearance of individualized subjects, enabling the generation of videos featuring unique characters and distinct motions.
-          </p>
-          
-                          </div>
-                        </div>
-                      </div>
-                      </div>
-          
-          
-          <hr>
-          <hr>
-          <hr>
+            </section>
 
-          <section class="section" id="BibTeX">
-            <div class="container is-max-desktop content">
-              <h2 class="title">BibTeX</h2>
-              <pre><code>@article{materzynska2023customizing,
+
+            <hr>
+            <hr>
+            <hr>
+
+            <section class="section" id="BibTeX">
+              <div class="container is-max-desktop content">
+                <h2 class="title">BibTeX</h2>
+                <pre><code>@article{materzynska2023customizing,
               title={Customizing Motion in Text-to-Video Diffusion Models},
               author={Materzy\'nska, Joanna and Sivic, Josef and Shechtman, Eli and Torralba, Antonio and Zhang, Richard and Russell, Bryan},
               journal={arXiv preprint arXiv:XXXX},
-              year={2023}
-            }</code></pre>
-            </div>
-          </section>
-          
-          
-          <footer class="footer">
+              year={2023}}</code></pre>
+              </div>
+            </section>
+
+
+            <footer class="footer">
               <div class="container">
                 <div class="columns is-centered">
                   <div class="column is-8">
                     <div class="content has-text-centered">
                       <p>
-                        Website source based on <a href="https://github.com/nerfies/nerfies.github.io">this source code</a>.
+                        We would like to thank Kabir Swain for his helpful discussions.
+                      </p>
+                      <p>
+                        Website source based on <a href="https://github.com/nerfies/nerfies.github.io">this
+                          source code</a>.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </footer>
-
-
 </body>
+
 </html>

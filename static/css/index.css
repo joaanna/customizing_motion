@@ -1,11 +1,102 @@
+
+
 body {
+      /* font-family: 'Google Sans', sans-serif; */
+
   font-family: 'Noto Sans', sans-serif;
 }
 
+.text_apm {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 25px;
+
+}
+
+.blue-text {
+  color: blue;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  font-style: italic;
+}
+
+.overlay-text2 {
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  font-style: italic;
+
+}
+.method-label {
+  text-align: center;
+
+}
+
+pre code {
+  background-color: #f0f0f0; /* Light gray background */
+  /* Additional styling */
+  padding: 10px;
+  display: block;
+  overflow-x: auto;
+}
+
+.media-container {
+  display: flex;
+  align-items: center; /* Aligns items vertically at the center */
+  justify-content: space-around; /* Spreads the items evenly */
+}
+
+.media-container img{
+  max-width: 50%;
+  height: auto;
+}
+
+.media-container video {
+  max-width: 60%;
+  height: auto;
+}
+
+
+.image-with-text {
+  text-align: center; /* Center aligns the text and image */
+  margin-bottom: 10px; /* Adds space below the container */
+}
+
+.image-with-text .text {
+  /* Style your text here */
+  margin-bottom: 5px; /* Adds space between the text and the image */
+}
+
+.image-with-text img {
+  width: 100%; /* Adjust width as necessary */
+  height: auto; /* Maintains the aspect ratio of the image */
+}
+
+
+
+
+
+.video-container {
+  display: flex;
+}
+
+.video-container video {
+  width: 10%; /* Adjust the width as needed */
+}
+
+.overlay-text3 {
+  /* font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  font-style: italic; */
+  text-align: left;
+  display: flex;
+
+}
+.overlay-text {
+  font-family: 'Noto Sans', sans-serif;
+  font-style: normal;
+
+}
 
 .footer .icon-link {
     font-size: 25px;
     color: #000;
+  
 }
 
 .footer  {
@@ -60,7 +151,9 @@ body {
 }
 
 .publication-title {
-    font-family: 'Google Sans', sans-serif;
+    /* font-family: 'Google Sans', sans-serif; */
+    font-family: 'Noto Sans', sans-serif;
+
 }
 
 .publication-authors {
@@ -159,6 +252,24 @@ body {
 
 .interpolation-panel .slider {
   margin: 0 !important;
+}
+
+.slider-pagination .slider-page {
+  background: #a7a7a7;
+  margin-bottom: 90px;
+}
+
+.eql-cntrb {
+  font-size: smaller;
+}
+
+.slider-navigation-previous {
+  width: 20px;
+  height: 20px;
+}
+.slider-navigation-next {
+  width: 20px;
+  height: 20px;
 }
 
 #interpolation-image-wrapper {
